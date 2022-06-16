@@ -37,6 +37,7 @@ export default function TripsAppear() {
         <h3>All Trips</h3>
         <br></br>
         {allTrips}
+        <p>do we get here</p>
       </Container>
     </div>
   );

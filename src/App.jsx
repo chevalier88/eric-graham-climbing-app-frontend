@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import TripsAppear from './components/ShowAllTrips';
+import TripsAppear from './components/ShowAllTrips.jsx';
 
 function App() {
   return (
