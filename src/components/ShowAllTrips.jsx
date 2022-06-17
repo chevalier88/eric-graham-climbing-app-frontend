@@ -14,12 +14,15 @@ export default function TripsAppear() {
     try {
       const results = await axios.get(`${BACKEND_URL}/trips`);
       const {data} = results;
-      console.log(data);
+      console.log(data.trips);
       const newArray = [];
-      for (let i = 0; i < data.length; i++) {
-        newArray.push(data[i]);
+      for (let i = 0; i < data.trips.length; i++) {
+        newArray.push(data.trips[i]);
       }
+      console.log(newArray);
       setAllTrips(newArray);
+      console.log(allTrips);
+
     } catch (error) {
       console.log(error);
     }
@@ -29,15 +32,23 @@ export default function TripsAppear() {
     getAllTrips();
   }, []);
 
-
   return (
     <div>
       <br></br>
       <Container maxWidth ="md">
         <h3>All Trips</h3>
         <br></br>
-        {allTrips}
+        <ul>
+          {allTrips.map((trip) => (
+            <li 
+            >
+              {trip.name}
+            </li>
+          ))}
+        </ul>
+
         <p>do we get here</p>
+
       </Container>
     </div>
   );
