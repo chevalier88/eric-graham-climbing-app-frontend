@@ -1,14 +1,13 @@
-import { BACKEND_URL } from "./BackendURL.js";
+import { BACKEND_URL } from "./supportFunctions.js";
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useContext} from "react";
 import Container from '@mui/material/Container';
-
-
+import { TripsContext } from "./TripsContext.jsx";
 export default function TripsAppear() {
 
   console.log(BACKEND_URL);
 
-  const [allTrips, setAllTrips] = useState([]);
+  const {allTrips, setAllTrips} = useContext(TripsContext);
 
   async function getAllTrips(){
     try {

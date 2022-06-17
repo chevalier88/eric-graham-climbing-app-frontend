@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,9 +9,29 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 
-import { BACKEND_URL } from './BackendURL.js';
+import { TripsContext } from "./TripsContext.jsx";
+import { BACKEND_URL} from './supportFunctions.js';
 
 export default function SubmitTripFormDialog() {
+  const {allTrips, setAllTrips} = useContext(TripsContext);
+
+  async function getAllTrips(){
+    try {
+      const results = await axios.get(`${BACKEND_URL}/trips`);
+      const {data} = results;
+      console.log(data.trips);
+      const newArray = [];
+      for (let i = 0; i < data.trips.length; i++) {
+        newArray.push(data.trips[i]);
+      }
+      setAllTrips(newArray);
+      console.log(allTrips);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const [open, setOpen] = useState(false);
   const [tripName, setTripName] = useState("");
 
@@ -23,26 +43,25 @@ export default function SubmitTripFormDialog() {
     setOpen(false);
   };
 
-  function handleSubmit (event) {
+  async function handleSubmit (event) {
     event.preventDefault();
     console.log('submitting form...');
 
     const currentSubmittedTrip = {
-      "blah": tripName,
+      "name": tripName,
     };
     console.log('printing currently submitted trip...');
-    // console.log(currentSubmittedTrip);
+    console.log(currentSubmittedTrip);
     console.log('printing backend url...');
     console.log(BACKEND_URL);
     console.log(tripName);
 
-    axios.post(`${BACKEND_URL}/trip`, currentSubmittedTrip)
-      .then((response)=> {
-        console.log(response.data);
-        // routeChange();
-        setOpen(false);
-    }); 
+    const response = await axios.post(`${BACKEND_URL}/trip`, currentSubmittedTrip);
 
+    console.log(response);
+    console.log(response.data);
+
+    getAllTrips();
   }
 
   return (

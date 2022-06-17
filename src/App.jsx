@@ -1,11 +1,21 @@
 import './App.css';
 import TripsAppear from './components/ShowAllTrips.jsx';
+import React, {useState} from 'react';
+import { TripsContext } from './components/TripsContext';
+
 import SubmitTripFormDialog from './components/SubmitTripForm.jsx';
+
+
+
 function App() {
+  const [allTrips, setAllTrips] = useState([]);
+
   return (
     <div className="App">
-      <TripsAppear/>
-      <SubmitTripFormDialog></SubmitTripFormDialog>
+      <TripsContext.Provider value = {{allTrips, setAllTrips}}>
+        <TripsAppear/>
+        <SubmitTripFormDialog></SubmitTripFormDialog>
+      </TripsContext.Provider>
     </div>
   );
 }
