@@ -19,7 +19,6 @@ export default function TripsAppear() {
       for (let i = 0; i < data.trips.length; i++) {
         newArray.push(data.trips[i]);
       }
-      console.log(newArray);
       setAllTrips(newArray);
       console.log(allTrips);
 
@@ -46,8 +45,6 @@ export default function TripsAppear() {
             </li>
           ))}
         </ul>
-
-        <p>do we get here</p>
 
       </Container>
     </div>
