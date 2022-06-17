@@ -14,6 +14,7 @@ function App() {
     <div className="App">
       <TripsContext.Provider value = {{allTrips, setAllTrips}}>
         <TripsAppear/>
+        <br></br>
         <SubmitTripFormDialog></SubmitTripFormDialog>
       </TripsContext.Provider>
     </div>
