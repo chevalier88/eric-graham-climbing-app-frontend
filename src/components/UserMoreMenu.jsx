@@ -13,6 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { BACKEND_URL } from './supportFunctions.js';
 import DraggableRoutesForOneTrip from './DraggableRoutesForOneTrip.jsx';
+import { useEffect } from 'react';
 // ----------------------------------------------------------------------
 
 export default function UserMoreMenu({targetRow}) {
@@ -20,6 +21,7 @@ export default function UserMoreMenu({targetRow}) {
   const ref = useRef(null);
   const [isDotsMenuOpen, setIsDotsMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [routes, setRoutes] = useState([]);
 
   async function getAllRoutes(){
     console.log('attempting to get allRoutes...')
@@ -33,10 +35,28 @@ export default function UserMoreMenu({targetRow}) {
       console.log('printing server response for routes of this trip...');
       console.log(data);
 
+      console.log(Object.keys(data));
+      console.log(data[0]);
+
+      const newArray = [];
+      for (let i = 0; i < data.length; i++) {
+        newArray.push(data[i]);
+      }
+
+      console.log('printing newArray');
+      console.log(newArray);
+
+      setRoutes(newArray);
+      // console.log(routes);
+
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect( () => {
+    getAllRoutes();
+  }, []);
 
   function handleDotMenuOpen(e){
     e.preventDefault();
@@ -52,8 +72,6 @@ export default function UserMoreMenu({targetRow}) {
     console.log(`view/edit button was clicked for ${Number(targetRow)}`);
     setIsDotsMenuOpen(false);
     
-    getAllRoutes();
-
     setDialogOpen(true);
 
   }
@@ -84,20 +102,11 @@ export default function UserMoreMenu({targetRow}) {
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Routes for Trip {targetRow}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Routes are ranked in order of user-specified priority.
+          <DialogContentText >
+            Routes are ranked in order of user-specified priority. <b>Drag routes</b> to modify rank.
           </DialogContentText>
-          {/* <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          /> */}
           <br></br>
-          <DraggableRoutesForOneTrip></DraggableRoutesForOneTrip>
+          <DraggableRoutesForOneTrip routes = {routes}></DraggableRoutesForOneTrip>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>Close</Button>
