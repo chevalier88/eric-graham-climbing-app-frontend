@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import { TripsContext } from './components/TripsContext';
 
 import SubmitTripFormDialog from './components/SubmitTripForm.jsx';
+import Login from './components/Login';
 
 
 
@@ -16,6 +17,7 @@ function App() {
         <TripsAppear/>
         <br></br>
         <SubmitTripFormDialog></SubmitTripFormDialog>
+        <Login/>
       </TripsContext.Provider>
     </div>
   );
