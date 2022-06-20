@@ -12,7 +12,7 @@ import axios from "axios";
 import { TripsContext } from "./TripsContext.jsx";
 import { BACKEND_URL} from './supportFunctions.js';
 
-export default function SubmitTripFormDialog() {
+  export default function SubmitTripFormDialog() {
   const {allTrips, setAllTrips} = useContext(TripsContext);
 
   async function getAllTrips(){
