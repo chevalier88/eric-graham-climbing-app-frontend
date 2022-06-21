@@ -23,6 +23,21 @@ export default function UserMoreMenu({targetRow}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
 
+  // const getAllRoutes=()=>{
+  //   axios
+  //   .get(`${BACKEND_URL}/trip/${targetRow}`)
+  //   .then((response)=>{
+
+  //   const data = response.data
+  //   const newArray = [];
+  //     for (let i = 0; i < data.length; i++) {
+  //       newArray.push(data[i]);
+  //     }
+  //     setRoutes(newArray);
+  //   })
+  //   .catch((error) => { console.log(error); });
+  // }
+
   async function getAllRoutes(){
     console.log('attempting to get allRoutes...')
     try{
@@ -37,7 +52,7 @@ export default function UserMoreMenu({targetRow}) {
 
       console.log(Object.keys(data));
       console.log(data[0]);
-
+ 
       const newArray = [];
       for (let i = 0; i < data.length; i++) {
         newArray.push(data[i]);
@@ -56,7 +71,7 @@ export default function UserMoreMenu({targetRow}) {
 
   useEffect( () => {
     getAllRoutes();
-  }, []);
+  },[]);
 
   function handleDotMenuOpen(e){
     e.preventDefault();
@@ -74,6 +89,27 @@ export default function UserMoreMenu({targetRow}) {
     
     setDialogOpen(true);
 
+  }
+
+  // ------ ADD NEW ROUTE ------- //
+  
+  const [routeName, setRouteName] = useState("");
+  const [routeDiff, setRouteDiff] = useState("");
+
+  async function handleAddNewRoute (event) {
+    event.preventDefault();
+    
+    const newRoute = {
+      'name': routeName,
+      'difficulty': routeDiff,
+    };
+    console.log(newRoute);
+    const response = await axios.post(`${BACKEND_URL}/addRoute/${targetRow}`, newRoute);
+    console.log(response.data);
+
+    setRouteName('');
+    setRouteDiff('');
+    getAllRoutes();
   }
 
   return (
@@ -109,6 +145,29 @@ export default function UserMoreMenu({targetRow}) {
           <DraggableRoutesForOneTrip routes = {routes}></DraggableRoutesForOneTrip>
         </DialogContent>
         <DialogActions>
+           <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Route Name"
+                type="name"
+                value = {routeName}
+                fullWidth
+                variant="standard"
+                onChange = {(e) => setRouteName(e.target.value)}
+              />
+               <TextField
+                autoFocus
+                margin="dense"
+                id="diff"
+                label="Route Difficulty"
+                type="name"
+                value = {routeDiff}
+                fullWidth
+                variant="standard"
+                onChange = {(e) => setRouteDiff(e.target.value)}
+              />
+          <Button onClick={handleAddNewRoute}>Add New Route</Button>
           <Button onClick={handleDialogClose}>Close</Button>
           {/* <Button onClick={handleDialogClose}>Subscribe</Button> */}
         </DialogActions>
