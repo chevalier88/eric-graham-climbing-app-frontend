@@ -23,20 +23,8 @@ export default function UserMoreMenu({targetRow}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
 
-  // const getAllRoutes=()=>{
-  //   axios
-  //   .get(`${BACKEND_URL}/trip/${targetRow}`)
-  //   .then((response)=>{
-
-  //   const data = response.data
-  //   const newArray = [];
-  //     for (let i = 0; i < data.length; i++) {
-  //       newArray.push(data[i]);
-  //     }
-  //     setRoutes(newArray);
-  //   })
-  //   .catch((error) => { console.log(error); });
-  // }
+  const [routeName, setRouteName] = useState("");
+  const [routeDiff, setRouteDiff] = useState("");
 
   async function getAllRoutes(){
     console.log('attempting to get allRoutes...')
@@ -93,12 +81,13 @@ export default function UserMoreMenu({targetRow}) {
 
   // ------ ADD NEW ROUTE ------- //
   
-  const [routeName, setRouteName] = useState("");
-  const [routeDiff, setRouteDiff] = useState("");
+
 
   async function handleAddNewRoute (event) {
     event.preventDefault();
     
+    console.log("testing to see if this is working");
+
     const newRoute = {
       'name': routeName,
       'difficulty': routeDiff,
@@ -169,7 +158,6 @@ export default function UserMoreMenu({targetRow}) {
               />
           <Button onClick={handleAddNewRoute}>Add New Route</Button>
           <Button onClick={handleDialogClose}>Close</Button>
-          {/* <Button onClick={handleDialogClose}>Subscribe</Button> */}
         </DialogActions>
       </Dialog>
     </>
